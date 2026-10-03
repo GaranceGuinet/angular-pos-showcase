@@ -1,0 +1,23 @@
+<h2>Recettes</h2>
+
+<div class="table-wrapper">
+  <table>
+    <thead>
+      <tr>
+        <th>Jour</th>
+        <th>Nombre de notes</th>
+        <th>Total</th>
+      </tr>
+    </thead>
+
+    <tbody>
+      @for (dailyTotal of totals(); track dailyTotal.day) {
+        <tr [class.today]="isToday(dailyTotal.day)">
+          <td>{{ dailyTotal.day | date: 'dd/MM/yyyy' }}</td>
+          <td>{{ dailyTotal.orderCount }}</td>
+          <td>{{ dailyTotal.total | euros }}</td>
+        </tr>
+      }
+    </tbody>
+  </table>
+</div>

@@ -1,0 +1,64 @@
+:host {
+    display: block;
+    margin: 1.5rem 0;
+    padding: 1rem;
+    border-radius: 0.75rem;
+    background: var(--color-surface);
+    box-shadow: var(--shadow);
+}
+
+.note-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    margin-bottom: 1rem;
+}
+
+.note-header h2 {
+    margin: 0;
+}
+
+.empty-note {
+    padding: 1rem;
+    text-align: center;
+    color: var(--color-muted);
+}
+
+.note-line {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.75rem 0;
+    border-bottom: 1px solid var(--color-border);
+}
+
+.note-line> :first-child {
+    font-weight: 600;
+}
+
+.note-line> :nth-child(2) {
+    margin-right: auto;
+}
+
+.note-total {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 1rem;
+    font-size: 1.25rem;
+}
+
+.pay-button {
+    width: 100%;
+}
+
+@media (max-width: 600px) {
+    .note-line {
+        flex-wrap: wrap;
+    }
+
+    .note-line> :nth-child(2) {
+        width: 100%;
+        margin-right: 0;
+    }
+}

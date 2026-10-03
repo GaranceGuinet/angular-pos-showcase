@@ -1,0 +1,19 @@
+<form class="login-card card" [formGroup]="form" (ngSubmit)="onSubmit()">
+  <h1>Caisse</h1>
+
+  <div class="form-field">
+    <label for="login">Identifiant</label>
+    <input id="login" type="text" formControlName="login" />
+  </div>
+
+  <div class="form-field">
+    <label for="password">Mot de passe</label>
+    <input id="password" type="password" formControlName="password" />
+  </div>
+
+  @if (errorMessage()) {
+    <p class="alert alert-error">{{ errorMessage() }}</p>
+  }
+
+  <button class="btn btn-primary btn-lg" type="submit">Se connecter</button>
+</form>

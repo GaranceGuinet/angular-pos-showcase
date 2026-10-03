@@ -1,0 +1,72 @@
+:host {
+    display: block;
+    width: min(1200px, calc(100% - 2rem));
+    margin: 0 auto;
+    padding: 1rem 0 3rem;
+}
+
+.caisse-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    margin-bottom: 1rem;
+}
+
+.caisse-header p {
+    margin: 0.35rem 0 0;
+}
+
+.catalog-section {
+    margin-top: 2rem;
+}
+
+.catalog-section h2 {
+    margin-bottom: 0.75rem;
+}
+
+.formula-list,
+.product-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 0.75rem;
+}
+
+.formula-card {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.35rem;
+    width: 100%;
+    border: 2px solid var(--color-accent);
+    text-align: left;
+}
+
+.formula-card:hover:not(:disabled) {
+    transform: translateY(-2px);
+}
+
+.formula-card:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.alert {
+    margin-top: 1rem;
+}
+
+@media (max-width: 600px) {
+    :host {
+        width: min(100% - 1rem, 1200px);
+    }
+
+    .caisse-header {
+        align-items: flex-start;
+        flex-direction: column;
+    }
+
+    .formula-list,
+    .product-grid {
+        grid-template-columns: 1fr;
+    }
+}

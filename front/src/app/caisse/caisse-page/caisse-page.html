@@ -1,0 +1,91 @@
+<header class="caisse-header card">
+  <div>
+    <h1>Caisse</h1>
+    <p>
+      Total du jour : <strong>{{ todayTotal() | euros }}</strong>
+    </p>
+  </div>
+
+  <div class="header-actions">
+    <button class="btn btn-ghost" type="button" (click)="reset()">Réinitialiser</button>
+    <button class="btn btn-ghost" type="button" (click)="logout()">Se déconnecter</button>
+  </div>
+</header>
+
+<app-note-panel [paymentInProgress]="paymentInProgress()" (payRequested)="pay()" />
+
+@if (paymentMessage()) {
+  <p class="alert alert-success">{{ paymentMessage() }}</p>
+}
+
+@if (paymentError()) {
+  <p class="alert alert-error">{{ paymentError() }}</p>
+}
+
+@if (lastPaidOrder(); as order) {
+  <section class="card">
+    <h2>Dernière note payée</h2>
+
+    <p>Note n°{{ order.id }}</p>
+
+    @for (line of order.lines; track $index) {
+      <p>{{ line.quantity }} × {{ line.label }} — {{ line.unitPrice | euros }}</p>
+    }
+
+    <p>
+      <strong>Total : {{ order.total | euros }}</strong>
+    </p>
+  </section>
+}
+
+<section class="catalog-section">
+  <h2>Formules</h2>
+
+  <div class="formula-list">
+    @for (formula of formulas(); track formula.id) {
+      <button
+        class="formula-card card"
+        type="button"
+        [disabled]="!isFormulaAvailable(formula)"
+        (click)="openFormula(formula)"
+      >
+        <strong>{{ formula.name }}</strong>
+
+        <span>
+          {{ formula.mainCategory === 'BURGER' ? 'Burger' : 'Panini' }}
+          + boisson + dessert
+        </span>
+
+        <strong>{{ formula.price | euros }}</strong>
+      </button>
+    }
+  </div>
+</section>
+
+@for (category of categories; track category.code) {
+  <section class="catalog-section">
+    <h2>{{ category.icon }} {{ category.label }}</h2>
+
+    <div class="product-grid">
+      @for (product of productsByCategory(category.code); track product.id) {
+        <app-product-card
+          [product]="product"
+          [availableStock]="availableStock(product)"
+          (productClicked)="note.addProduct($event)"
+        />
+      }
+    </div>
+  </section>
+}
+
+@if (selectedFormula(); as formula) {
+  <app-formula-picker
+    [formula]="formula"
+    [products]="products()"
+    [quantitiesByProduct]="note.quantitiesByProduct()"
+    (formulaAdded)="addFormula($event)"
+    (cancelled)="closeFormula()"
+  />
+}
+
+<app-daily-totals [totals]="dailyTotals()" />

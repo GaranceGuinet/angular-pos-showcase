@@ -1,0 +1,70 @@
+<header class="note-header">
+  <h2>Note en cours</h2>
+
+  @if (note.lines().length > 0) {
+    <button class="btn btn-ghost" type="button" (click)="note.clear()">Vider</button>
+  }
+</header>
+
+@if (note.lines().length === 0) {
+  <p class="empty-note">La note est vide.</p>
+} @else {
+  @for (line of note.lines(); track $index) {
+    @if (line.kind === 'product') {
+      <div class="note-line">
+        <span>{{ line.product.name }}</span>
+        <span>{{ line.product.price | euros }}</span>
+
+        <button class="btn btn-icon" type="button" (click)="note.decreaseProduct(line.product.id)">
+          −
+        </button>
+
+        <span>{{ line.quantity }}</span>
+
+        <button
+          class="btn btn-icon"
+          type="button"
+          [disabled]="(note.quantitiesByProduct().get(line.product.id) ?? 0) >= line.product.stock"
+          (click)="note.addProduct(line.product)"
+        >
+          +
+        </button>
+
+        <span>{{ line.product.price * line.quantity | euros }}</span>
+
+        <button class="btn btn-ghost" type="button" (click)="note.removeProduct(line.product.id)">
+          Supprimer
+        </button>
+      </div>
+    } @else {
+      <div class="note-line">
+        <span>{{ line.formula.name }}</span>
+
+        <span> {{ line.main.name }} + {{ line.drink.name }} + {{ line.dessert.name }} </span>
+
+        <span>{{ line.formula.price | euros }}</span>
+
+        <button class="btn btn-ghost" type="button" (click)="note.removeFormula(line)">
+          Supprimer
+        </button>
+      </div>
+    }
+  }
+}
+
+<p class="note-total">
+  <strong>Total : {{ note.total() | euros }}</strong>
+</p>
+
+<button
+  class="btn btn-success btn-lg pay-button"
+  type="button"
+  [disabled]="note.lines().length === 0 || paymentInProgress()"
+  (click)="payRequested.emit()"
+>
+  @if (paymentInProgress()) {
+    Paiement en cours...
+  } @else {
+    Payer {{ note.total() | euros }}
+  }
+</button>

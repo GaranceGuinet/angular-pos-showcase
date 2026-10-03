@@ -1,0 +1,71 @@
+<div class="overlay">
+  <section class="picker">
+    <h2>{{ formula().name }}</h2>
+    <p>{{ formula().price | euros }}</p>
+
+    <h3>{{ formula().mainCategory === 'BURGER' ? 'Burger' : 'Panini' }}</h3>
+
+    <div class="choices">
+      @for (product of mainProducts(); track product.id) {
+        <button
+          class="btn choice-button"
+          type="button"
+          [class.selected]="selectedMain()?.id === product.id"
+          [disabled]="availableStock(product) <= 0"
+          (click)="selectMain(product)"
+        >
+          {{ product.name }}
+          @if (availableStock(product) <= 0) {
+            — Indisponible
+          }
+        </button>
+      }
+    </div>
+
+    <h3>Boisson</h3>
+
+    <div class="choices">
+      @for (product of drinks(); track product.id) {
+        <button
+          class="btn choice-button"
+          type="button"
+          [class.selected]="selectedDrink()?.id === product.id"
+          [disabled]="availableStock(product) <= 0"
+          (click)="selectDrink(product)"
+        >
+          {{ product.name }}
+          @if (availableStock(product) <= 0) {
+            — Indisponible
+          }
+        </button>
+      }
+    </div>
+
+    <h3>Dessert</h3>
+
+    <div class="choices">
+      @for (product of desserts(); track product.id) {
+        <button
+          class="btn choice-button"
+          type="button"
+          [class.selected]="selectedDessert()?.id === product.id"
+          [disabled]="availableStock(product) <= 0"
+          (click)="selectDessert(product)"
+        >
+          {{ product.name }}
+          @if (availableStock(product) <= 0) {
+            — Indisponible
+          }
+        </button>
+      }
+    </div>
+
+    <div class="actions">
+      <button class="btn btn-ghost" type="button" (click)="cancelled.emit()">Annuler</button>
+
+      <button class="btn btn-success" type="button" [disabled]="!canAdd()" (click)="addFormula()">
+        Ajouter à la note
+      </button>
+    </div>
+  </section>
+</div>

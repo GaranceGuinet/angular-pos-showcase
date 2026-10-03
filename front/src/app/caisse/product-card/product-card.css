@@ -1,0 +1,27 @@
+.sold-out {
+    opacity: 0.5;
+}
+
+:host {
+    display: block;
+}
+
+.product-card {
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    align-items: center;
+    gap: 0.5rem;
+    width: 100%;
+    min-height: 80px;
+    border: 2px solid transparent;
+    text-align: left;
+}
+
+.product-card:hover:not(:disabled) {
+    border-color: var(--color-accent);
+}
+
+.product-card .badge {
+    grid-column: 2 / -1;
+    justify-self: start;
+}
